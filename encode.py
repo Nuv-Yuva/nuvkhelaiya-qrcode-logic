@@ -12,13 +12,14 @@ scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/aut
 creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", scope)
 client = gspread.authorize(creds)
 sheet = client.open("nuvkhelaiyaeb").sheet1
+
 data = sheet.get_all_records()
 uid = sheet.col_values(1)
 name = sheet.col_values(2)
 email = sheet.col_values(6)
 enrollmentid = sheet.col_values(4)
 
-num = 316
+num = 5
 serial = []
 
 for i in range(num):
@@ -33,36 +34,36 @@ for i in range(num):
         serial.append(y)
 
 
-# def making_listToJson():
-#     res = []
-#     for i in range(1, len(data) + 1):
-#         temp = {"serial": serial[i],
-#                   "name": name[i],
-#                   "enrollment": enrollmentid[i]}
-#         res.append(temp)
+# # def making_listToJson():
+# #     res = []
+# #     for i in range(1, len(data) + 1):
+# #         temp = {"serial": serial[i],
+# #                   "name": name[i],
+# #                   "enrollment": enrollmentid[i]}
+# #         res.append(temp)
 
-#     jsonFile = open("reciepents.json", "w")
-#     jsonFile.write(json.dumps(res))
-#     jsonFile.close()
+# #     jsonFile = open("reciepents.json", "w")
+# #     jsonFile.write(json.dumps(res))
+# #     jsonFile.close()
 
 
 
-# randlen = 64
-# num = 1
+# # randlen = 64
+# # num = 1
 
-# for i in range(num):
-#         res = ''.join(random.choices(string.ascii_uppercase , k=randlen))
+# # for i in range(num):
+# #         res = ''.join(random.choices(string.ascii_uppercase , k=randlen))
 
-#         g = open(r'key.env', 'a')
-# generate a 64 byte random key
-#         g.write(res)
-#         g.write("\n")
+# #         g = open(r'key.env', 'a')
+# # generate a 64 byte random key
+# #         g.write(res)
+# #         g.write("\n")
 
 SECRET_KEY = 'key.env'
 
 
 def making_qr():
-    for i in range(len(data)):
+    for i in range(num):
         encoded_jwt = jwt.encode(
                {"Name": data[i]["name"], "serial": serial[i], "enrollment id": data[i]["enrollmentid"]},
                SECRET_KEY,
@@ -78,16 +79,3 @@ def making_qr():
         print(decoded)
 
 making_qr()
-
-
-
-
-# for i in range(num):
-#     encode_data = []
-#     json_data = [] 
-#     json_data = open("reciepents.json", "w")
-
-#     # encode the data with SECRET_KEY and 
-#     # algorithm "HS256" -> Symmetric Algorithm
-#     encode_data[i] = jwt.encode(payload=json_data, \
-#                             key=SECRET_KEY, algorithm="HS256")
