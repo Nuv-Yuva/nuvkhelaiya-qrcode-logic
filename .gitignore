@@ -1,3 +1,5 @@
 /venv
 /creds.json
 /images
+/offline
+/test-qr-node
